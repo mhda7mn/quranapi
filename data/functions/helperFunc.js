@@ -3,14 +3,14 @@ import https from "https";
 import fs from "node:fs";
 
 // Artificially ratelimiting requests to not get ratelimited by APIs
-const delay = (ms) =>
+export const delay = (ms) =>
 	new Promise((resolve) => setTimeout(resolve, ms));
 
 export const createJsonFile = async (
 	dirname,
+	folder,
 	filename,
-	data,
-	folder
+	data
 ) => {
 	const dataDir = path.join(dirname, folder);
 	const filePath = path.join(dataDir, filename);
@@ -30,10 +30,10 @@ export const createJsonFile = async (
 
 export const addAyatData = async (
 	dirname,
+	folder,
 	filename,
-	data,
 	ayahNo,
-	folder
+	data
 ) => {
 	const dataDir = path.join(dirname, folder);
 	const filePath = path.join(dataDir, filename);
