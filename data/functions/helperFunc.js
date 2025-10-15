@@ -2,7 +2,7 @@ import path from "path";
 import https from "https";
 import fs from "node:fs";
 
-// Artificially ratelimiting requests to not get ratelimited by APIs
+// Artificially slowing down requests to not get slowed down by APIs
 export const delay = (ms) =>
 	new Promise((resolve) => setTimeout(resolve, ms));
 
