@@ -1,6 +1,6 @@
 import path from "path";
 import fs from "fs";
-import { addAyatData, createJsonFile, delay } from "./helperFunc";
+import { addAyatData, createJsonFile, delay } from "./helperFunc.js";
 
 const getAyahInfo = async (surahNumber, ayahIndex) => {
 	const baseApiLink = "https://quranapi.pages.dev/api"; //API link for fetching quran data
@@ -15,7 +15,7 @@ const getAyahInfo = async (surahNumber, ayahIndex) => {
 const getAyahTafseer = async (surahNumber, ayahIndex) => {
 	const tafseerId = [1, 2, 3, 4, 6, 7, 8]; //Get tafseer books, ignoring tafseer book number 5
 
-	const baseApiLink = "https://api.quran-tafseer.com/tafseer/"; //API to fetch tafseer data, not available in quranapi.pages.dev
+	const baseApiLink = "http://api.quran-tafseer.com/tafseer"; //API to fetch tafseer data, not available in quranapi.pages.dev
 
 	let tafseer = [];
 	for (let id in tafseerId) {
@@ -59,7 +59,7 @@ const processAyahData = async (
 	const fileName = `${surahNumber} - ${surah.surahName}.json`;
 	await createJsonFile(dirname, folder, fileName, surahData);
 
-	for (let ayahIndex = 1; ayahIndex <= surah.totalAyah; ayahIndex) {
+	for (let ayahIndex = 1; ayahIndex <= surah.totalAyah; ayahIndex++) {
 		const ayahInfo = await getAyahInfo(surahNumber, ayahIndex);
 		const ayahMetaData = await getAyahMetaData(
 			surahNumber,
@@ -105,6 +105,7 @@ export const getSurahData = async (dirname, folder) => {
 			await delay(1000); // Artificial delay to not get slowed down by API
 		}
 	} catch (err) {
+		console.error(err);
 		console.error(`[Error Fetching Surah Data] - ${err}`);
 	}
 };
