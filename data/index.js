@@ -47,8 +47,8 @@ const scrapeAllData = async (dirname) => {
 
 	await getSurahData(dirname, "quran/surahs");
 	await getJuzData(dirname, "quran/juz");
-	await processJuzToPage(dirname, "quran/pages");
-	await processJuzToHizb(dirname, "quran/hizb");
+	await processJuzToPage(dirname, "quran/juz", "quran/pages");
+	await processJuzToHizb(dirname, "quran/juz", "quran/hizb");
 
 	await fetchRecitersAndScrapeSurahAudio(
 		dirname,

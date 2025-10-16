@@ -160,8 +160,12 @@ export const getJuzData = async (dirname, folder) => {
 	}
 };
 
-export const processJuzToPage = async (dirname, folder) => {
-	const juzDirectory = path.join(dirname, folder);
+export const processJuzToPage = async (
+	dirname,
+	juzFolder,
+	pageFolder
+) => {
+	const juzDirectory = path.join(dirname, juzFolder);
 	const files = fs.readdirSync(juzDirectory);
 
 	const pageData = {};
@@ -195,15 +199,19 @@ export const processJuzToPage = async (dirname, folder) => {
 
 		await createJsonFile(
 			dirname,
-			folder,
+			pageFolder,
 			`Page - ${page}.json`,
 			data
 		);
 	}
 };
 
-export const processJuzToHizb = async (dirname, folder) => {
-	const juzDirectory = path.join(dirname, folder);
+export const processJuzToHizb = async (
+	dirname,
+	juzFolder,
+	hizbFolder
+) => {
+	const juzDirectory = path.join(dirname, juzFolder);
 	const files = fs.readdirSync(juzDirectory);
 
 	const hizbData = {};
@@ -237,7 +245,7 @@ export const processJuzToHizb = async (dirname, folder) => {
 
 		await createJsonFile(
 			dirname,
-			folder,
+			hizbFolder,
 			`Hizb - ${hizbNumber}.json`,
 			data
 		);
