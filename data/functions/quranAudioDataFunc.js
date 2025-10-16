@@ -14,8 +14,8 @@ export const scrapeAyatAudio = async (
 		const response = await fetch(audioApiUrl);
 		const data = await response.json();
 
-		for (let i = 0; i < data.surahs.length; i++) {
-			const surah = data.surahs[i];
+		for (let i = 0; i < data.length; i++) {
+			const surah = data[i];
 			const surahName = surah.surahName;
 			const totalAyat = surah.totalAyah;
 			const surahNo = i + 1;
@@ -85,7 +85,7 @@ const getSurahNames = async () => {
 	}
 };
 
-const scrapeRectireAudio = async (
+const scrapeReciterAudio = async (
 	dirname,
 	folder,
 	reciterNamesToDownload,
@@ -158,14 +158,12 @@ export const fetchRecitersAndScrapeSurahAudio = async (
 
 		const reciters = data.reciters;
 
-		const surahNamesMap = await getSurahNames();
-
 		for (let i = 0; i < reciters.length; i++) {
 			const reciter = reciters[i];
-			await scrapeRectireAudio(
+			await scrapeReciterAudio(
 				dirname,
 				folder,
-				surahNamesMap,
+				reciterNames,
 				reciter
 			);
 		}
