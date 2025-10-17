@@ -102,7 +102,7 @@ export const getSurahData = async (dirname, folder) => {
 			const surahNumber = index + 1;
 
 			await processAyahData(dirname, folder, surah, surahNumber);
-			await delay(1000); // Artificial delay to not get slowed down by API
+			await delay(1250); // Artificial delay to not get slowed down by API
 		}
 	} catch (err) {
 		console.error(err);

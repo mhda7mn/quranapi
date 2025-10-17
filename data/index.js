@@ -68,3 +68,7 @@ const scrapeAllData = async (dirname) => {
 };
 
 scrapeAllData(__dirname);
+
+// TODO: Create juz data from surah data
+// TODO: Edit page data to fit new data from surah data
+// TODO: Edit hizb data as well
