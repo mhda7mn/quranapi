@@ -34,16 +34,13 @@ export const getSpecificJuzData = async (juzNumber) => {
 		const juzDir = path.join(dataDir, "juz");
 		const files = fs.readdirSync(juzDir);
 
-		const juzFile = files.find((file) => {
-			return (
-				file.startsWith("Juz -") && file.endsWith(`${juzNumber}.json`)
-			);
-		});
+		const juzFile = `Juz - ${juzNumber}.json`;
 
-		if (!juzFile)
+		if (!files.includes(juzFile)) {
 			throw new Error(
-				`[Specific Juz Fetch Error] - No Such Juz With Number ${juzNumber} Exists`
+				`[Specific Page Fetch Error] - No page with number ${juzNumber} exists`
 			);
+		}
 
 		const filePath = path.join(juzDir, juzFile);
 		const fileContent = fs.readFileSync(filePath, "utf-8");

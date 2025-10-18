@@ -34,17 +34,13 @@ export const getSpecificHizbData = async (hizbNumber) => {
 		const hizbDir = path.join(dataDir, "hizb");
 		const files = fs.readdirSync(hizbDir);
 
-		const hizbFile = files.find((file) => {
-			return (
-				file.startsWith("Hizb -") &&
-				file.endsWith(`${hizbNumber}.json`)
-			);
-		});
+		const hizbFile = `Hizb - ${hizbNumber}.json`;
 
-		if (!hizbFile)
+		if (!files.includes(hizbFile)) {
 			throw new Error(
-				`[Specific Hizb Fetch Error] - No Such Hizb With Number ${hizbNumber} Exists`
+				`[Specific Page Fetch Error] - No page with number ${hizbNumber} exists`
 			);
+		}
 
 		const filePath = path.join(hizbDir, hizbFile);
 		const fileContent = fs.readFileSync(filePath, "utf-8");

@@ -3,7 +3,7 @@ import { BadRequestError, ServerError } from "../errors/errors.js";
 import {
 	getAllJuz,
 	getSpecificJuzData,
-} from "../controllers/juzControllers.js";
+} from "../controllers/juzController.js";
 
 const juzRouter = Router();
 

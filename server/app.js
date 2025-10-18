@@ -5,6 +5,7 @@ import logger from "./utils/logger.js";
 import surahRoutes from "./routes/surahRoutes.js";
 import juzRouter from "./routes/juzRoutes.js";
 import hizbRouter from "./routes/hizbRoutes.js";
+import pageRouter from "./routes/pageRoutes.js";
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 app.use("/surahs", surahRoutes);
 app.use("/juz", juzRouter);
 app.use("/hizb", hizbRouter);
+app.use("/pages", pageRouter);
 
 app.use((err, req, res, next) => {
 	if (err.log) {
