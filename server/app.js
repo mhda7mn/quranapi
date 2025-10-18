@@ -1,5 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
+import path from "path";
 
 import logger from "./utils/logger.js";
 import surahRoutes from "./routes/surahRoutes.js";
@@ -7,6 +8,8 @@ import juzRouter from "./routes/juzRoutes.js";
 import hizbRouter from "./routes/hizbRoutes.js";
 import pageRouter from "./routes/pageRoutes.js";
 import ayahRouter from "./routes/ayahRoutes.js";
+import dataDir from "./utils/dataDir.js";
+import recitationRouter from "./routes/recitationRoutes.js";
 
 dotenv.config();
 
@@ -17,6 +20,9 @@ app.use("/ayahs", ayahRouter);
 app.use("/juz", juzRouter);
 app.use("/hizb", hizbRouter);
 app.use("/pages", pageRouter);
+app.use("/recitations", recitationRouter);
+
+app.use("/audio", express.static(path.join(dataDir, "audio")));
 
 app.use((err, req, res, next) => {
 	if (err.log) {

@@ -24,7 +24,7 @@ export const scrapeAyatAudio = async (
 				`[Processing Ayah Audio] - ${surahNo} - ${surahName} (${totalAyat})`
 			);
 
-			const folderName = `${surahNo}`;
+			const folderName = String(surahNo).padStart(3, "0");
 			const folderPath = path.join(
 				dirname,
 				folder,
@@ -46,9 +46,11 @@ export const scrapeAyatAudio = async (
 
 				await downloadFile(url, filePath);
 
+				const ayahNumber = String(ayahIndex).padStart(3, "0");
+
 				const renamedFilePath = path.join(
 					folderPath,
-					`${ayahIndex}.mp3`
+					`${ayahNumber}.mp3`
 				);
 
 				fs.rename(filePath, renamedFilePath, (err) => {
@@ -56,32 +58,14 @@ export const scrapeAyatAudio = async (
 						? console.error(
 								`[Error Renaming Ayah Audio File] - ${err}`
 						  )
-						: console.info(`[Ayah Audio Renamed] - ${ayahIndex}.mp3`);
+						: console.info(
+								`[Ayah Audio Renamed] - ${ayahNumber}.mp3`
+						  );
 				});
 			}
 		}
 	} catch (err) {
 		console.error(`[Error Scraping Ayah Audio] - ${err}`);
-	}
-};
-
-const getSurahNames = async () => {
-	const baseApiUrl = "https://quranapi.pages.dev/api/surah.json";
-	try {
-		const response = await fetch(baseApiUrl);
-		const data = await response.json();
-
-		const surahNamesMap = {};
-
-		data.forEach((surah, index) => {
-			const surahId = (index + 1).toString().padStart(3, "0");
-			surahNamesMap[surahId] = surah.surahName;
-		});
-
-		return surahNamesMap;
-	} catch (err) {
-		console.error(`[Error Fetching Surah Names] -  ${err}`);
-		return;
 	}
 };
 

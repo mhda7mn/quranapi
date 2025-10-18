@@ -45,15 +45,15 @@ const ayahAudioLinks = [
 const scrapeAllData = async (dirname) => {
 	console.info("[Beginning The Scraping Of Data]");
 
-	await getSurahData(dirname, "quran/surahs");
-	await getJuzData(dirname, "quran/surahs", "quran/juz");
-	await processJuzToPage(dirname, "quran/juz", "quran/pages");
-	await processJuzToHizb(dirname, "quran/juz", "quran/hizb");
+	// await getSurahData(dirname, "quran/surahs");
+	// await getJuzData(dirname, "quran/surahs", "quran/juz");
+	// await processJuzToPage(dirname, "quran/juz", "quran/pages");
+	// await processJuzToHizb(dirname, "quran/juz", "quran/hizb");
 
-	await fetchRecitersAndScrapeSurahAudio(
-		dirname,
-		"quran/audio/surahs"
-	);
+	// await fetchRecitersAndScrapeSurahAudio(
+	// 	dirname,
+	// 	"quran/audio/surahs"
+	// );
 
 	for (let audio of ayahAudioLinks) {
 		await scrapeAyatAudio(
