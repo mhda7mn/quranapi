@@ -32,3 +32,9 @@ export class ServerError extends CustomError {
 		super(message, 500);
 	}
 }
+
+export class BadRequestError extends CustomError {
+	constructor(message = "Bad Request") {
+		super(message, 400);
+	}
+}

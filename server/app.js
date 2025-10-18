@@ -2,7 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 
 import logger from "./utils/logger.js";
-import surahRoutes from "./controllers/surahRoutes.js";
+import surahRoutes from "./routes/surahRoutes.js";
 
 dotenv.config();
 
