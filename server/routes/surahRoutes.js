@@ -1,9 +1,5 @@
 import { Router } from "express";
-import {
-	BadRequestError,
-	NotFoundError,
-	ServerError,
-} from "../errors/errors.js";
+import { BadRequestError, ServerError } from "../errors/errors.js";
 import {
 	getAllSurahs,
 	getSpecificSurahData,
@@ -11,7 +7,6 @@ import {
 
 const surahRoutes = Router();
 
-// all surahs {surahNumber, surahName, link: link for surah info (api)}
 surahRoutes.get("/", async (req, res, next) => {
 	try {
 		const data = await getAllSurahs();
@@ -22,7 +17,7 @@ surahRoutes.get("/", async (req, res, next) => {
 	}
 });
 
-// Information about specific surah
+// TODO: Add tafseer query
 surahRoutes.get("/:number", async (req, res, next) => {
 	try {
 		const surahNumber = parseInt(req.params.number, 10);
@@ -30,7 +25,7 @@ surahRoutes.get("/:number", async (req, res, next) => {
 		if (isNaN(surahNumber) || surahNumber > 114 || surahNumber < 1) {
 			return next(
 				new BadRequestError(
-					"Surah Number Must Be A Number Between 1 And 114"
+					"Surah Must Be A Number Between 1 And 114"
 				)
 			);
 		}

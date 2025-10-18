@@ -1,14 +1,11 @@
-import { fileURLToPath } from "url";
 import path from "path";
 import fs from "fs";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const dataDirname = path.join(__dirname, "../../", "data/quran");
+import dataDir from "../utils/dataDir.js";
 
 export const getAllSurahs = async () => {
 	try {
-		const surahDir = path.join(dataDirname, "surahs");
+		const surahDir = path.join(dataDir, "surahs");
 		const files = fs.readdirSync(surahDir);
 
 		const surahList = [];
@@ -35,7 +32,7 @@ export const getAllSurahs = async () => {
 
 export const getSpecificSurahData = async (surahNumber) => {
 	try {
-		const surahDir = path.join(dataDirname, "surahs");
+		const surahDir = path.join(dataDir, "surahs");
 		const files = fs.readdirSync(surahDir);
 
 		const surahFile = files.find((file) => {
