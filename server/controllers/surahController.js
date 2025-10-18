@@ -11,16 +11,15 @@ export const getAllSurahs = async () => {
 		const surahList = [];
 
 		for (const file of files) {
-			if (!file.endsWith(".json")) return;
+			if (!file.endsWith(".json")) continue;
 
-			const baseName = path.basename(file, ".json"); // Remove .json from the file name
+			const filePath = path.join(surahDir, file);
+			const fileContent = fs.readFileSync(filePath, "utf-8");
+			const surahData = JSON.parse(fileContent);
 
-			const [numberPart, ...nameParts] = baseName.split(" - ");
-			const surahNumber = parseInt(numberPart, 10);
-			const surahName = nameParts.join(" - ").trim();
-
-			surahList.push({ surahNo: surahNumber, surahName });
+			surahList.push(surahData);
 		}
+
 		surahList.sort((a, b) => a.surahNo - b.surahNo);
 
 		return surahList;

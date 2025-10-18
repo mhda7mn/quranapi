@@ -11,16 +11,22 @@ export const getAllHizb = async () => {
 		const hizbList = [];
 
 		for (const file of files) {
-			if (!file.endsWith(".json")) return;
+			if (!file.endsWith(".json")) continue;
 
-			const baseName = path.basename(file, ".json"); // Remove .json from the file name
-
-			const [namePart, numberPart] = baseName.split(" - ");
+			const baseName = path.basename(file, ".json");
+			const numberPart = baseName.split(" - ")[1];
 			const hizbNumber = parseInt(numberPart, 10);
 
-			hizbList.push({ hizb: hizbNumber });
+			const filePath = path.join(hizbDir, file);
+			const fileContent = fs.readFileSync(filePath, "utf-8");
+			const hizbData = JSON.parse(fileContent);
+
+			hizbList.push({
+				hizbNo: hizbNumber,
+				...hizbData,
+			});
 		}
-		hizbList.sort((a, b) => a.hizb - b.hizb);
+		hizbList.sort((a, b) => a.hizbNo - b.hizbNo);
 
 		return hizbList;
 	} catch (err) {

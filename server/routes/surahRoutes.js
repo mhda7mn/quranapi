@@ -5,9 +5,9 @@ import {
 	getSpecificSurahData,
 } from "../controllers/surahController.js";
 
-const surahRoutes = Router();
+const surahRouter = Router();
 
-surahRoutes.get("/", async (req, res, next) => {
+surahRouter.get("/", async (req, res, next) => {
 	try {
 		const data = await getAllSurahs();
 
@@ -17,8 +17,7 @@ surahRoutes.get("/", async (req, res, next) => {
 	}
 });
 
-// TODO: Add tafseer query
-surahRoutes.get("/:number", async (req, res, next) => {
+surahRouter.get("/:number", async (req, res, next) => {
 	try {
 		const surahNumber = parseInt(req.params.number, 10);
 
@@ -36,4 +35,4 @@ surahRoutes.get("/:number", async (req, res, next) => {
 	}
 });
 
-export default surahRoutes;
+export default surahRouter;

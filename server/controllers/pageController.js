@@ -11,16 +11,22 @@ export const getAllPages = async () => {
 		const pagesList = [];
 
 		for (const file of files) {
-			if (!file.endsWith(".json")) return;
+			if (!file.endsWith(".json")) continue;
 
-			const baseName = path.basename(file, ".json"); // Remove .json from the file name
-
-			const [namePart, numberPart] = baseName.split(" - ");
+			const baseName = path.basename(file, ".json");
+			const numberPart = baseName.split(" - ")[1];
 			const pageNumber = parseInt(numberPart, 10);
 
-			pagesList.push({ page: pageNumber });
+			const filePath = path.join(pagesDir, file);
+			const fileContent = fs.readFileSync(filePath, "utf-8");
+			const pageData = JSON.parse(fileContent);
+
+			pagesList.push({
+				pageNo: pageNumber,
+				...pageData,
+			});
 		}
-		pagesList.sort((a, b) => a.page - b.page);
+		pagesList.sort((a, b) => a.pageNo - b.pageNo);
 
 		return pagesList;
 	} catch (err) {

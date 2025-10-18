@@ -13,14 +13,21 @@ export const getAllJuz = async () => {
 		for (const file of files) {
 			if (!file.endsWith(".json")) return;
 
-			const baseName = path.basename(file, ".json"); // Remove .json from the file name
-
-			const [namePart, numberPart] = baseName.split(" - ");
+			const baseName = path.basename(file, ".json");
+			const numberPart = baseName.split(" - ")[1];
 			const juzNumber = parseInt(numberPart, 10);
 
-			juzList.push({ juz: juzNumber });
+			const filePath = path.join(juzDir, file);
+			const fileContent = fs.readFileSync(filePath, "utf-8");
+			const juzData = JSON.parse(fileContent);
+
+			juzList.push({
+				juzNo: juzNumber,
+				...juzData,
+			});
 		}
-		juzList.sort((a, b) => a.juz - b.juz);
+
+		juzList.sort((a, b) => a.juzNo - b.juzNo);
 
 		return juzList;
 	} catch (err) {
