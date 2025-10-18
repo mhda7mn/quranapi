@@ -46,7 +46,7 @@ const scrapeAllData = async (dirname) => {
 	console.info("[Beginning The Scraping Of Data]");
 
 	await getSurahData(dirname, "quran/surahs");
-	await getJuzData(dirname, "quran/juz");
+	await getJuzData(dirname, "quran/surahs", "quran/juz");
 	await processJuzToPage(dirname, "quran/juz", "quran/pages");
 	await processJuzToHizb(dirname, "quran/juz", "quran/hizb");
 
@@ -68,7 +68,3 @@ const scrapeAllData = async (dirname) => {
 };
 
 scrapeAllData(__dirname);
-
-// TODO: Create juz data from surah data
-// TODO: Edit page data to fit new data from surah data
-// TODO: Edit hizb data as well

@@ -105,55 +105,70 @@ export const getSurahData = async (dirname, folder) => {
 			await delay(1250); // Artificial delay to not get slowed down by API
 		}
 	} catch (err) {
-		console.error(err);
 		console.error(`[Error Fetching Surah Data] - ${err}`);
 	}
 };
 
-export const getJuzData = async (dirname, folder) => {
-	const baseApiLink = "https://api.alquran.cloud/v1/juz";
-	const surahBaseApiLink = "https://quranapi.pages.dev/api";
-
+export const getJuzData = async (dirname, surahFolder, juzFolder) => {
 	try {
-		for (let j = 1; j <= 30; j++) {
-			const response = await fetch(
-				`${baseApiLink}/${j}/quran-uthmani`
-			);
-			const data = await response.json();
+		const surahDir = path.join(dirname, surahFolder);
+		const files = fs.readdirSync(surahDir);
 
-			let ayat = [];
+		const juzMap = {};
 
-			for (let i = 0; i < data.data.ayahs.length; i++) {
-				const ayahData = data.data.ayahs[i];
-				const hizbNumber = Math.ceil(ayahData.hizbQuarter / 4);
+		for (const file of files) {
+			if (!file.endsWith(".json")) return;
 
-				const surahMetaResponse = await fetch(
-					`${surahBaseApiLink}/${ayahData.surah.number}.json`
-				);
-				const surahData = await surahMetaResponse.json();
+			const filePath = path.join(surahDir, file);
+			const surahContent = fs.readFileSync(filePath, "utf-8");
+			const surahData = JSON.parse(surahContent);
 
-				ayat.push({
-					text: ayahData.text,
+			for (const ayah of surahData.ayat) {
+				const juz = ayah.meta.juz;
+
+				if (!juzMap[juz]) {
+					juzMap[juz] = [];
+				}
+
+				juzMap[juz].push({
+					ayahNo: ayah.ayahNo,
+					ayahArV1: ayah.ayahArV1,
+					ayahArV2: ayah.ayahArV2,
+					ayahEn: ayah.ayahEn,
 					ayahMeta: {
-						ayahNoInQuran: ayahData.number,
-						ayahNoInSurah: ayahData.numberInSurah,
-						page: ayahData.page,
-						juz: ayahData.juz,
-						hizb: hizbNumber,
-						hizbQuarter: ayahData.hizbQuarter,
-						sajda: ayahData.sajda,
+						page: ayah.meta.page,
+						juz: ayah.meta.juz,
+						hizb: ayah.meta.hizb,
+						hizbQuarter: ayah.meta.hizbQuarter,
+						sajda: ayah.meta.sajda,
 					},
 					surahMeta: {
-						surahNo: ayahData.surah.number,
-						surahNameAr: surahData.surahNameArabic,
+						surahNo: surahData.surahNo,
+						surahNameAr: surahData.surahNameAr,
 						surahNameArabicLong: surahData.surahNameArabicLong,
-						surahNameEn: surahData.surahName,
+						surahNameEn: surahData.surahNameEn,
 						revelationPlace: surahData.revelationPlace,
-						totalAyat: surahData.totalAyah,
+						totalAyat: surahData.totalAyat,
 					},
 				});
 			}
-			await createJsonFile(dirname, folder, `Juz - ${j}.json`, ayat);
+		}
+
+		for (const juzNum in juzMap) {
+			const ayat = juzMap[juzNum];
+			ayat.sort((a, b) => {
+				if (a.ayahMeta.page === b.ayahMeta.page) {
+					return a.ayahMeta.ayahNoInSurah - b.ayahMeta.ayahNoInSurah;
+				}
+				return a.ayahMeta.page - b.ayahMeta.page;
+			});
+
+			await createJsonFile(
+				dirname,
+				juzFolder,
+				`Juz - ${juzNum}.json`,
+				ayat
+			);
 		}
 	} catch (err) {
 		console.error(`[Error Getting Juz Data] - ${err}`);
@@ -165,44 +180,50 @@ export const processJuzToPage = async (
 	juzFolder,
 	pageFolder
 ) => {
-	const juzDirectory = path.join(dirname, juzFolder);
-	const files = fs.readdirSync(juzDirectory);
+	try {
+		const juzDirectory = path.join(dirname, juzFolder);
+		const files = fs.readdirSync(juzDirectory);
 
-	const pageData = {};
+		const pageMap = {};
 
-	for (const file of files) {
-		if (file.endsWith(".json")) {
+		for (const file of files) {
+			if (!file.endsWith(".json")) continue;
+
 			const filePath = path.join(juzDirectory, file);
-
-			const fileContent = fs.readFileSync(filePath, "utf-8");
-			const juzData = JSON.parse(fileContent);
+			const juzContent = fs.readFileSync(filePath, "utf-8");
+			const juzData = JSON.parse(juzContent);
 
 			for (const ayah of juzData) {
-				const { ayahMeta } = ayah;
-				const { page } = ayahMeta;
+				const pageNumber = ayah.ayahMeta?.page;
+				if (!pageNumber) continue;
 
-				if (!pageData[page]) {
-					pageData[page] = [];
+				if (!pageMap[pageNumber]) {
+					pageMap[pageNumber] = [];
 				}
 
-				pageData[page].push(ayah);
+				pageMap[pageNumber].push(ayah);
 			}
 		}
-	}
 
-	for (const page in pageData) {
-		const data = pageData[page];
+		for (const page in pageMap) {
+			const ayat = pageMap[page];
 
-		data.sort(
-			(a, b) => a.ayahMeta.ayahNoInQuran - b.ayahMeta.ayahNoInQuran
-		); // Sort the ayat from smallest to biggest
+			ayat.sort((a, b) => {
+				if (a.surahMeta.surahNo === b.surahMeta.surahNo) {
+					return a.ayahMeta.ayahNoInSurah - b.ayahMeta.ayahNoInSurah;
+				}
+				return a.surahMeta.surahNo - b.surahMeta.surahNo;
+			});
 
-		await createJsonFile(
-			dirname,
-			pageFolder,
-			`Page - ${page}.json`,
-			data
-		);
+			await createJsonFile(
+				dirname,
+				pageFolder,
+				`Page - ${page}.json`,
+				ayat
+			);
+		}
+	} catch (err) {
+		console.error(`[Error Processing Juz To Pages] - ${err}`);
 	}
 };
 
