@@ -8,7 +8,7 @@ ayahRoutes.get("/:surahNumber/:ayahNumber", async (c: Context) => {
 		const surahNumber = Number(c.req.param("surahNumber"));
 		const ayahNumber = Number(c.req.param("ayahNumber"));
 
-		const surahQuery = c.req.query("surahInfo") === "true";
+		const surahQuery = c.req.query("surahInfo") !== "false";
 
 		if (isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
 			return c.json(
@@ -39,7 +39,9 @@ ayahRoutes.get("/:surahNumber/:ayahNumber", async (c: Context) => {
 		const ayah = ayat.find((a: any) => a.ayahNo === ayahNumber);
 		let data;
 
-		surahQuery ? (data = { surah: rest, ayah }) : (data = ayah);
+		surahQuery === true
+			? (data = { surah: rest, ayah })
+			: (data = ayah);
 
 		return c.json(data, 200);
 	} catch (err) {

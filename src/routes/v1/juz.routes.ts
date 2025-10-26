@@ -12,7 +12,7 @@ juzRoutes.get("/", async (c) => {
 			any[]
 		>;
 
-		if (!includeMeta) {
+		if (includeMeta === false) {
 			data = Object.fromEntries(
 				Object.entries(data).map(([juzNumber, ayahs]) => [
 					juzNumber,
@@ -44,7 +44,7 @@ juzRoutes.get("/:number", async (c) => {
 			c
 		)) as any[];
 
-		if (!includeMeta) {
+		if (includeMeta === false) {
 			data = data.map(({ meta, ...rest }) => rest);
 		}
 

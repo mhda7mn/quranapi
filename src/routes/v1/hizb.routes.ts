@@ -12,7 +12,7 @@ hizbRoutes.get("/", async (c) => {
 			any[]
 		>;
 
-		if (!includeMeta) {
+		if (includeMeta === false) {
 			data = Object.fromEntries(
 				Object.entries(data).map(([hizbNumber, ayahs]) => [
 					hizbNumber,
@@ -44,7 +44,7 @@ hizbRoutes.get("/:number", async (c) => {
 			c
 		)) as any[];
 
-		if (!includeMeta) {
+		if (includeMeta === false) {
 			data = data.map(({ meta, ...rest }) => rest);
 		}
 
