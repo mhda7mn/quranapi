@@ -3,6 +3,7 @@ import surahRoutes from "./routes/v1/surah.routes";
 import ayahRoutes from "./routes/v1/ayah.routes";
 import juzRoutes from "./routes/v1/juz.routes";
 import hizbRoutes from "./routes/v1/hizb.routes";
+import pageRoutes from "./routes/v1/pages.routes";
 
 const app = new Hono();
 
@@ -15,5 +16,6 @@ app.route("/api/v1/surahs", surahRoutes);
 app.route("/api/v1/ayahs", ayahRoutes);
 app.route("/api/v1/juz", juzRoutes);
 app.route("/api/v1/hizb", hizbRoutes);
+app.route("/api/v1/pages", pageRoutes);
 
 export default app;
