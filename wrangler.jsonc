@@ -6,6 +6,13 @@
 	"compatibility_flags": ["nodejs_compat"],
 	"vars": {
 		"BASE_URL": "http://localhost:5173"
+	},
+	"env": {
+		"production": {
+			"vars": {
+				"BASE_URL": "https://mydomain.com"
+			}
+		}
 	}
 
 	// "vars": {
