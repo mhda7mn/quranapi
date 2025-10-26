@@ -1,0 +1,51 @@
+import { Context, Hono } from "hono";
+import loadJSON from "../../functions/loadJson";
+
+const ayahRoutes = new Hono();
+
+ayahRoutes.get("/:surahNumber/:ayahNumber", async (c: Context) => {
+	try {
+		const surahNumber = Number(c.req.param("surahNumber"));
+		const ayahNumber = Number(c.req.param("ayahNumber"));
+
+		const surahQuery = c.req.query("surahInfo") === "true";
+
+		if (isNaN(surahNumber) || surahNumber < 1 || surahNumber > 114) {
+			return c.json(
+				{ error: "Surah must be a number between 1 and 114" },
+				400
+			);
+		}
+
+		const surahData: any = await loadJSON(
+			`/data/v1/surahs/${surahNumber}.json`,
+			c
+		);
+		const { ayat, ...rest } = surahData;
+
+		if (
+			isNaN(ayahNumber) ||
+			ayahNumber < 1 ||
+			ayahNumber > ayat.length
+		) {
+			return c.json(
+				{
+					error: `Ayah must be a number between 1 and ${ayat.length}`,
+				},
+				400
+			);
+		}
+
+		const ayah = ayat.find((a: any) => a.ayahNo === ayahNumber);
+		let data;
+
+		surahQuery ? (data = { surah: rest, ayah }) : (data = ayah);
+
+		return c.json(data, 200);
+	} catch (err) {
+		console.log(err);
+		return c.json({ error: "Internal Server Error" }, 500);
+	}
+});
+
+export default ayahRoutes;

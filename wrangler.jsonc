@@ -4,18 +4,10 @@
 	"compatibility_date": "2025-10-26",
 	"pages_build_output_dir": "./dist",
 	"compatibility_flags": ["nodejs_compat"],
-	"env": {
-		"dev": {
-			"vars": {
-				"BASE_URL": "http://localhost:5173"
-			}
-		},
-		"production": {
-			"vars": {
-				"BASE_URL": ""
-			}
-		}
+	"vars": {
+		"BASE_URL": "http://localhost:5173"
 	}
+
 	// "vars": {
 	//   "MY_VAR": "my-variable"
 	// },

@@ -1,6 +1,6 @@
 import { Hono } from "hono";
 import surahRoutes from "./routes/v1/surah.routes";
-import loadJSON from "./functions/loadJson";
+import ayahRoutes from "./routes/v1/ayah.routes";
 
 const app = new Hono();
 
@@ -10,5 +10,6 @@ app.use("*", (c, next) => {
 });
 
 app.route("/api/v1/surahs", surahRoutes);
+app.route("/api/v1/ayahs", ayahRoutes);
 
 export default app;
