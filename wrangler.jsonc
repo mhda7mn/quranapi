@@ -10,7 +10,7 @@
 	"env": {
 		"production": {
 			"vars": {
-				"BASE_URL": "https://mydomain.com"
+				"BASE_URL": "https://quranapi-26r.pages.dev"
 			}
 		}
 	}
