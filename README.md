@@ -70,3 +70,10 @@ Once the API is up and running you can access the following endpoints
 ### 10. GET /api/v1/tafseer/:surahnumber
 
 ### 11. GET /api/v1/tafseer/:surahbnumber/:ayahnumber
+
+## Roadmap
+
+- [] Add finer control for tafseer endpoints
+- [] Add recitation audio for surahs and ayahs
+- [] Add translated tafseer
+- [] Add more languages
