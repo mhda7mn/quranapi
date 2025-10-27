@@ -28,12 +28,12 @@ app.use("*", async (c, next) => {
 	return res;
 });
 
-app.route("/api/v1/surahs", surahRoutes);
-app.route("/api/v1/ayahs", ayahRoutes);
-app.route("/api/v1/juz", juzRoutes);
-app.route("/api/v1/hizb", hizbRoutes);
-app.route("/api/v1/pages", pageRoutes);
-app.route("/api/v1/tafseer", tafseerRoutes);
+app.route("/v1/surahs", surahRoutes);
+app.route("/v1/ayahs", ayahRoutes);
+app.route("/v1/juz", juzRoutes);
+app.route("/v1/hizb", hizbRoutes);
+app.route("/v1/pages", pageRoutes);
+app.route("/v1/tafseer", tafseerRoutes);
 
 app.all("*", (c) => {
 	return c.json({ message: "Route not found" }, 404);
