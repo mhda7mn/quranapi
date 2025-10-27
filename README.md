@@ -73,7 +73,27 @@ Once the API is up and running you can access the following endpoints
 
 ## Roadmap
 
-- [] Add finer control for tafseer endpoints
-- [] Add recitation audio for surahs and ayahs
-- [] Add translated tafseer
-- [] Add more languages
+- [ ] **Create website with documentation**
+      (⚡️ Top priority)
+
+- [ ] **Add finer control for Tafseer endpoints**  
+       Allow more detailed queries for Tafseer to show certain books
+
+- [ ] **Add recitation audio for Surahs and Ayahs**  
+       Integrate audio from authentic reciters
+
+- [ ] **Add translated Tafseer**  
+       Include translated Tafseer in multiple languages (starting with english as top priority)
+
+- [ ] **Add more languages**  
+       Expand API support to include more translations (e.g. Italian, Urdu, French, Indonesian).
+
+---
+
+### ✅ Completed
+
+- [x] Initial version of Quran API endpoints (Surah, Ayah, Tafseer).
+- [x] Cloudflare Pages + Hono integration.
+- [x] Automated JSON generation for Surahs, Juz, Hizb, and Pages.
+
+---
