@@ -73,8 +73,10 @@ Once the API is up and running you can access the following endpoints
 
 ## Roadmap
 
-- [ ] **Create website with documentation**
+- [x] **Create website with documentation**
       (⚡️ Top priority)
+
+- [ ] **Create react example using API**
 
 - [ ] **Add finer control for Tafseer endpoints**  
        Allow more detailed queries for Tafseer to show certain books
