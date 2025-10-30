@@ -2,7 +2,6 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 
 import surahRoutes from "./routes/v1/surah.routes";
-import ayahRoutes from "./routes/v1/ayah.routes";
 import juzRoutes from "./routes/v1/juz.routes";
 import hizbRoutes from "./routes/v1/hizb.routes";
 import pageRoutes from "./routes/v1/pages.routes";
@@ -37,10 +36,8 @@ app.get("/", (c) => {
 			v1: {
 				surahs: {
 					all: "/v1/surahs",
-					specific: "/v1/surahs/:surahnumber",
-				},
-				ayahs: {
-					specific: "/v1/surahs/:surahnumber/:ayahnumber",
+					specificSurah: "/v1/surahs/:surahnumber",
+					specificAyah: "/v1/surahs/:surahnumber/:ayahnumber",
 				},
 				juz: {
 					all: "/v1/juz",
@@ -64,7 +61,6 @@ app.get("/", (c) => {
 });
 
 app.route("/v1/surahs", surahRoutes);
-app.route("/v1/ayahs", ayahRoutes);
 app.route("/v1/juz", juzRoutes);
 app.route("/v1/hizb", hizbRoutes);
 app.route("/v1/pages", pageRoutes);
